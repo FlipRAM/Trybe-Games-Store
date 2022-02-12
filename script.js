@@ -22,10 +22,11 @@ const createTextElement = (type, className, content) => {
   return element;
 }
 
-const createImageElement = (type, className, content) => {
+const createImageElement = (type, className, content, link) => {
   const element = document.createElement(type);
   element.className  = className;
   element.src = content;
+  element.href = link;
   return element;
 }
 
@@ -54,6 +55,10 @@ const appendData = async () => {
   const listOfStores = await getStores();
   console.log(listDeals);
   listDeals.forEach((element) => {
+    const anchor = document.createElement('a');
+    const url = `https://www.cheapshark.com/redirect?dealID=${element.dealID}`;
+    anchor.href = url;
+    anchor.target = '_blank';
     const storeId = element.storeID;
     const div = document.createElement('div');
     div.className = 'game-column'
@@ -66,7 +71,8 @@ const appendData = async () => {
     divPrice.appendChild(createTextElement('p', 'sale-price', `$ ${element.salePrice}`));
     divPrice.appendChild(createTextElement('p', 'price', `$ ${element.normalPrice}`));
     div.appendChild(createTextElement('p', 'title', element.title));
-    divImage.appendChild(createImageElement('img', 'thumb', element.thumb));
+    divImage.appendChild(anchor);
+    anchor.appendChild(createImageElement('img', 'thumb', element.thumb, url))
     const objReturned = getIcon(storeId, listOfStores);
     console.log(objReturned);
     divStore.appendChild(createTextElement('p', 'store-name', objReturned.storeName));
