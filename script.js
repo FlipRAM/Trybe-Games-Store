@@ -80,13 +80,11 @@ const getIcon = (id, listOfStores) => {
   return obj;
 }
 
-const removePrev = async () => {
+const removePrev = async (title) => {
   const listDeals = await getRating();
-  for (let i = 1; i > listDeals.length; i += 1) {
-    const title = document.querySelectorAll('.title-r');
-    console.log(title);
+  for (let i = 1; i < listDeals.length; i += 1) {
     if (listDeals[i].title === listDeals[i-1].title) {
-      ratingContainer.removeChild(title[i].parentNode);
+    ratingContainer.removeChild(title[i].parentNode);
     }
   }
   // console.log(listDeals);
@@ -162,6 +160,42 @@ const appendData = async () => {
   })
 }
 
+const appendDeal = async () => {
+  const listDeals = await getData();
+  const listOfStores = await getStores();
+  // console.log(listDeals);
+  listDeals.forEach((element) => {
+    const anchor = document.createElement('a');
+    const url = `https://www.cheapshark.com/redirect?dealID=${element.dealID}`;
+    anchor.href = url;
+    anchor.target = '_blank';
+    const storeId = element.storeID;
+    const div = document.createElement('div');
+    div.className = 'game-column'
+    const divPrice = document.createElement('div');
+    divPrice.className = 'div-price';
+    const divImage = document.createElement('div');
+    divImage.className = 'image-container';
+    const divStore = document.createElement('div');
+    divStore.className = 'store-container';
+    divPrice.appendChild(createTextElement('p', 'sale-price', `$ ${element.salePrice}`));
+    divPrice.appendChild(createTextElement('p', 'price', `$ ${element.normalPrice}`));
+    div.appendChild(createTextElement('p', 'title', element.title));
+    divImage.appendChild(anchor);
+    anchor.appendChild(createImageElement('img', 'thumb', element.thumb, url))
+    const objReturned = getIcon(storeId, listOfStores);
+    // console.log(objReturned);
+    divStore.appendChild(createTextElement('p', 'store-name', objReturned.storeName));
+    divStore.appendChild(createImageElement('img', 'store-logo', objReturned.logo));
+    div.appendChild(divImage);
+    div.appendChild(divPrice);
+    div.appendChild(divStore);
+    div.appendChild(createTextElement('p', 'rate', `Metacritic Score: ${element.metacriticScore}`));
+    gamesContainer.appendChild(div);
+  })
+}
+
+
 const searchGame = async () => {
   let gameName = localStorage.getItem('inputText');
   const listOfGames = await getGames(gameName);
@@ -211,7 +245,8 @@ window.onload = async () => {
   if (!window.location.href.includes('search.html')) {
     await appendData();
     await appendRating();
-    await removePrev();
+    const title = document.querySelectorAll('.title-r')
+    await removePrev(title);
     btn.addEventListener('click', () => {
       sectionAll.innerHTML = '';
       localStorage.setItem('inputText', textInput.value);
