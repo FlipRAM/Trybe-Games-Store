@@ -2,6 +2,7 @@ const gamesContainer = document.querySelector('#games-container');
 const sectionAll = document.querySelector('.everything');
 const btn = document.querySelector('.btn');
 const textInput = document.querySelector('#search');
+const logoHeader = document.querySelector('#logo-header');
 
 const getGames = async (games) => {
   const url = `https://www.cheapshark.com/api/1.0/games?title=${games}`;
@@ -118,6 +119,8 @@ btn.addEventListener('click', () => {
   sectionAll.innerHTML = '';
   searchGame();
 })
+
+logoHeader.addEventListener('click', () => window.location = '/');
 
 window.onload = () => {
   appendData();

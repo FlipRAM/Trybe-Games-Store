@@ -37,6 +37,7 @@ header {
 }
 
 #logo-header {
+  cursor: pointer;
   display: flex;
   align-items: center;
   border: 5px solid green;
