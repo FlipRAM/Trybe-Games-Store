@@ -1,8 +1,10 @@
 const gamesContainer = document.querySelector('#games-container');
+const ratingContainer = document.querySelector('#rating-container')
 const sectionAll = document.querySelector('.everything');
 const btn = document.querySelector('.btn');
 const textInput = document.querySelector('#search');
 const logoHeader = document.querySelector('#logo-header');
+const sectionGames = document.querySelector('#section-search');
 
 const getGames = async (games) => {
   const url = `https://www.cheapshark.com/api/1.0/games?title=${games}`;
@@ -19,6 +21,17 @@ const getGames = async (games) => {
 
 const getData = async () => {
   const url = 'https://www.cheapshark.com/api/1.0/deals';
+  const request = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+  const response = await fetch(url, request);
+  const data = await response.json();
+  return data;
+}
+
+const getRating = async () => {
+  const url = 'https://www.cheapshark.com/api/1.0/deals?sortBy=Metacritic';
   const request = {
     method: 'GET',
     redirect: 'follow'
@@ -67,6 +80,53 @@ const getIcon = (id, listOfStores) => {
   return obj;
 }
 
+const removePrev = async () => {
+  const listDeals = await getRating();
+  for (let i = 1; i > listDeals.length; i += 1) {
+    const title = document.querySelectorAll('.title-r');
+    console.log(title);
+    if (listDeals[i].title === listDeals[i-1].title) {
+      ratingContainer.removeChild(title[i].parentNode);
+    }
+  }
+  // console.log(listDeals);
+};
+
+const appendRating = async () => {
+  const listDeals = await getRating();
+  const listOfStores = await getStores();
+  console.log(listDeals);
+  listDeals.forEach((element) => {
+    const anchor = document.createElement('a');
+    const url = `https://www.cheapshark.com/redirect?dealID=${element.dealID}`;
+    anchor.href = url;
+    anchor.target = '_blank';
+    const storeId = element.storeID;
+    const div = document.createElement('div');
+    div.className = 'game-column'
+    const divPrice = document.createElement('div');
+    divPrice.className = 'div-price';
+    const divImage = document.createElement('div');
+    divImage.className = 'image-container';
+    const divStore = document.createElement('div');
+    divStore.className = 'store-container';
+    divPrice.appendChild(createTextElement('p', 'sale-price', `$ ${element.salePrice}`));
+    divPrice.appendChild(createTextElement('p', 'price', `$ ${element.normalPrice}`));
+    div.appendChild(createTextElement('p', 'title-r', element.title));
+    divImage.appendChild(anchor);
+    anchor.appendChild(createImageElement('img', 'thumb', element.thumb, url))
+    const objReturned = getIcon(storeId, listOfStores);
+    // console.log(objReturned);
+    divStore.appendChild(createTextElement('p', 'store-name', objReturned.storeName));
+    divStore.appendChild(createImageElement('img', 'store-logo', objReturned.logo));
+    div.appendChild(divImage);
+    div.appendChild(divPrice);
+    div.appendChild(divStore);
+    div.appendChild(createTextElement('p', 'rate', `Metacritic Score: ${element.metacriticScore}`));
+    ratingContainer.appendChild(div);
+  })
+}
+
 const appendData = async () => {
   const listDeals = await getData();
   const listOfStores = await getStores();
@@ -103,11 +163,9 @@ const appendData = async () => {
 }
 
 const searchGame = async () => {
-  let gameName = textInput.value;
+  let gameName = localStorage.getItem('inputText');
   const listOfGames = await getGames(gameName);
-  const sectionGames = document.createElement('section');
   sectionGames.className = 'games-list'
-  sectionAll.appendChild(sectionGames);
   listOfGames.forEach((element) => {
     const anchor = document.createElement('a');
     const url = `https://www.cheapshark.com/redirect?dealID=${element.cheapestDealID}`;
@@ -135,14 +193,30 @@ const searchGame = async () => {
   })
 }
 
-btn.addEventListener('click', () => {
-  sectionAll.innerHTML = '';
-  searchGame();
-})
-
 logoHeader.addEventListener('click', () => window.location = '/');
 
-window.onload = () => {
-  appendData();
+if (window.location.href.includes('search.html')) {
+  searchGame();
+  const btnSearch = document.querySelector('.btn-search')
+  btnSearch.addEventListener('click', () => {
+    sectionGames.innerHTML = '';
+    console.log(textInput.value)
+    localStorage.setItem('inputText', textInput.value);
+    searchGame();
+  })
+}
+
+
+window.onload = async () => {
+  if (!window.location.href.includes('search.html')) {
+    await appendData();
+    await appendRating();
+    await removePrev();
+    btn.addEventListener('click', () => {
+      sectionAll.innerHTML = '';
+      localStorage.setItem('inputText', textInput.value);
+      window.location = "./search.html"
+    })
+  };
 }
  

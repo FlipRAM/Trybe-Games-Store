@@ -83,7 +83,7 @@ h2 {
   text-align: center;
 }
 
-#games-container {
+#games-container, #rating-container {
   display: flex;
   overflow-x: scroll;
   border: 5px solid red;
@@ -178,6 +178,7 @@ h2 {
 .games-list {
   margin-top: 200px;
   display: flex;
+  justify-content: center;
   flex-direction: row;
   width: 70%;
   flex-wrap: wrap;
