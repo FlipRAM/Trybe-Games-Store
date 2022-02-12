@@ -1,4 +1,20 @@
 const gamesContainer = document.querySelector('#games-container');
+const sectionAll = document.querySelector('.everything');
+const btn = document.querySelector('.btn');
+const textInput = document.querySelector('#search');
+
+const getGames = async (games) => {
+  const url = `https://www.cheapshark.com/api/1.0/games?title=${games}`;
+  const request = {
+    method: 'GET',
+    redirect: 'follow',
+  }
+  const response = await fetch(url, request);
+  const data = await response.json();
+  console.log(data)
+  return data;
+}
+// getGames('batman');
 
 const getData = async () => {
   const url = 'https://www.cheapshark.com/api/1.0/deals';
@@ -38,7 +54,7 @@ const getStores = async () => {
   };
   const response = await fetch(url, request);
   const data = await response.json();
-  console.log(data);
+  // console.log(data);
   return data;
 }
 
@@ -53,7 +69,7 @@ const getIcon = (id, listOfStores) => {
 const appendData = async () => {
   const listDeals = await getData();
   const listOfStores = await getStores();
-  console.log(listDeals);
+  // console.log(listDeals);
   listDeals.forEach((element) => {
     const anchor = document.createElement('a');
     const url = `https://www.cheapshark.com/redirect?dealID=${element.dealID}`;
@@ -74,7 +90,7 @@ const appendData = async () => {
     divImage.appendChild(anchor);
     anchor.appendChild(createImageElement('img', 'thumb', element.thumb, url))
     const objReturned = getIcon(storeId, listOfStores);
-    console.log(objReturned);
+    // console.log(objReturned);
     divStore.appendChild(createTextElement('p', 'store-name', objReturned.storeName));
     divStore.appendChild(createImageElement('img', 'store-logo', objReturned.logo));
     div.appendChild(divImage);
@@ -85,6 +101,23 @@ const appendData = async () => {
   })
 }
 
+const searchGame = async () => {
+  let gameName = textInput.value;
+  const listOfGames = await getGames(gameName);
+  listOfGames.forEach((element) => {
+    const divGame = document.createElement('div');
+    divGame.className = 'search-game'
+    divGame.appendChild(createImageElement('img', 'search-gameThumb', element.thumb));
+    divGame.appendChild(createTextElement('p', 'search-gameName', element.external));
+    divGame.appendChild(createTextElement('p', 'search-salePrice', element.cheapest));
+    sectionAll.appendChild(divGame);
+  })
+}
+
+btn.addEventListener('click', () => {
+  sectionAll.innerHTML = '';
+  searchGame();
+})
 
 window.onload = () => {
   appendData();
