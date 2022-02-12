@@ -160,3 +160,38 @@ h2 {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 } 
+
+.games-list {
+  margin-left: 20%;
+}
+
+.search-gameThumb {
+  height: 100px;
+  object-fit: contain;
+}
+
+.container-game {
+  margin: 25px 20px;
+  border: 1px solid red;
+}
+
+.games-list {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: row;
+  width: 70%;
+  flex-wrap: wrap;
+}
+
+.game-title, .image-div, .price-title {
+  text-align: center;
+  width: 280px;
+}
+
+@media screen and (max-width: 768px){
+  .games-list {
+    width: 100%;
+    margin: 0;
+    margin-top: 200px;
+  }
+}

@@ -105,13 +105,33 @@ const appendData = async () => {
 const searchGame = async () => {
   let gameName = textInput.value;
   const listOfGames = await getGames(gameName);
+  const sectionGames = document.createElement('section');
+  sectionGames.className = 'games-list'
+  sectionAll.appendChild(sectionGames);
   listOfGames.forEach((element) => {
+    const anchor = document.createElement('a');
+    const url = `https://www.cheapshark.com/redirect?dealID=${element.cheapestDealID}`;
+    anchor.href = url;
+    anchor.target = '_blank';
     const divGame = document.createElement('div');
-    divGame.className = 'search-game'
-    divGame.appendChild(createImageElement('img', 'search-gameThumb', element.thumb));
-    divGame.appendChild(createTextElement('p', 'search-gameName', element.external));
-    divGame.appendChild(createTextElement('p', 'search-salePrice', element.cheapest));
-    sectionAll.appendChild(divGame);
+    divGame.className = 'container-game';
+    const gamePerTitle = document.createElement('div');
+    gamePerTitle.className = 'game-search';
+    const divImage = document.createElement('div');
+    divImage.className = 'image-div';
+    const gameTitle = document.createElement('div');
+    gameTitle.className = 'game-title';
+    const priceTitle = document.createElement('div');
+    priceTitle.className = 'price-title';
+    anchor.appendChild(createImageElement('img', 'search-gameThumb', element.thumb, url));
+    divImage.appendChild(anchor);
+    gameTitle.appendChild(createTextElement('p', 'search-gameName', element.external));
+    priceTitle.appendChild(createTextElement('p', 'search-salePrice', element.cheapest));
+    gamePerTitle.appendChild(divImage);
+    gamePerTitle.appendChild(gameTitle);
+    gamePerTitle.appendChild(priceTitle);
+    divGame.appendChild(gamePerTitle);
+    sectionGames.appendChild(divGame);
   })
 }
 
