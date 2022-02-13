@@ -32,8 +32,8 @@ const getData = async () => {
   return data;
 }
 
-const getRating = async () => {
-  const url = 'https://www.cheapshark.com/api/1.0/deals?sortBy=Metacritic';
+const genericDeals = async (param) => {
+  const url = `https://www.cheapshark.com/api/1.0/deals?sortBy=${param}`;
   const request = {
     method: 'GET',
     redirect: 'follow'
@@ -91,7 +91,7 @@ const getIcon = (id, listOfStores) => {
 }
 
 const removePrev = async (title) => {
-  const listDeals = await getRating();
+  const listDeals = await genericDeals('Metacritic');
   for (let i = 1; i < listDeals.length; i += 1) {
     if (listDeals[i].title === listDeals[i-1].title) {
     ratingContainer.removeChild(title[i].parentNode);
@@ -133,7 +133,7 @@ const createRatingElement = async (listDeals, listOfStores, { rates:{ USD,BRL } 
 }
 
 const appendRating = async () => {
-  const listDeals = await getRating();
+  const listDeals = await genericDeals('Metacritic');
   const listOfStores = await getStores();
   console.log(listDeals);
   const exchange = await getLatestCurrency();
