@@ -5,7 +5,9 @@ const btn = document.querySelector('.btn');
 const textInput = document.querySelector('#search');
 const logoHeader = document.querySelector('#logo-header');
 const sectionGames = document.querySelector('#section-search');
+const API_KEY = 'edd790f37703711c2db0506a4a4f38aa';
 
+// API CALLS
 const getGames = async (games) => {
   const url = `https://www.cheapshark.com/api/1.0/games?title=${games}`;
   const request = {
@@ -41,6 +43,28 @@ const getRating = async () => {
   return data;
 }
 
+const getStores = async () => {
+  const url = 'https://www.cheapshark.com/api/1.0/stores';
+  const request = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+  const response = await fetch(url, request);
+  const data = await response.json();
+  // console.log(data);
+  return data;
+}
+
+const getLatestCurrency = async () => {
+  const url = 'http://api.exchangeratesapi.io/v1/';
+  const response = await fetch(`${url}/latest?access_key=${API_KEY}`)
+  const data = response.json();
+  console.log(data);
+  return data;
+}
+
+//
+
 const createTextElement = (type, className, content) => {
   const element = document.createElement(type);
   element.className  = className;
@@ -60,17 +84,6 @@ const createImageElement = (type, className, content, link) => {
   return element;
 }
 
-const getStores = async () => {
-  const url = 'https://www.cheapshark.com/api/1.0/stores';
-  const request = {
-    method: 'GET',
-    redirect: 'follow'
-  };
-  const response = await fetch(url, request);
-  const data = await response.json();
-  // console.log(data);
-  return data;
-}
 
 const getIcon = (id, listOfStores) => {
   obj = {
@@ -91,6 +104,8 @@ const removePrev = async (title) => {
 };
 
 const appendRating = async () => {
+  const exchange = await getLatestCurrency();
+  const { rates: { USD, BRL } } = exchange;
   const listDeals = await getRating();
   const listOfStores = await getStores();
   console.log(listDeals);
@@ -108,8 +123,8 @@ const appendRating = async () => {
     divImage.className = 'image-container';
     const divStore = document.createElement('div');
     divStore.className = 'store-container';
-    divPrice.appendChild(createTextElement('p', 'sale-price', `$ ${element.salePrice}`));
-    divPrice.appendChild(createTextElement('p', 'price', `$ ${element.normalPrice}`));
+    divPrice.appendChild(createTextElement('p', 'sale-price', `R$ ${((element.salePrice / USD) * BRL).toFixed(2)}`));
+    divPrice.appendChild(createTextElement('p', 'price', `R$ ${((element.normalPrice / USD) * BRL).toFixed(2)}`));
     div.appendChild(createTextElement('p', 'title-r', element.title));
     divImage.appendChild(anchor);
     anchor.appendChild(createImageElement('img', 'thumb', element.thumb, url))
@@ -126,6 +141,8 @@ const appendRating = async () => {
 }
 
 const appendData = async () => {
+  const exchange = await getLatestCurrency();
+  const { rates: { USD, BRL } } = exchange;
   const listDeals = await getData();
   const listOfStores = await getStores();
   // console.log(listDeals);
@@ -143,8 +160,8 @@ const appendData = async () => {
     divImage.className = 'image-container';
     const divStore = document.createElement('div');
     divStore.className = 'store-container';
-    divPrice.appendChild(createTextElement('p', 'sale-price', `$ ${element.salePrice}`));
-    divPrice.appendChild(createTextElement('p', 'price', `$ ${element.normalPrice}`));
+    divPrice.appendChild(createTextElement('p', 'sale-price', `R$ ${((element.salePrice / USD) * BRL).toFixed(2)}`));
+    divPrice.appendChild(createTextElement('p', 'price', `R$ ${((element.normalPrice / USD) * BRL).toFixed(2)}`));
     div.appendChild(createTextElement('p', 'title', element.title));
     divImage.appendChild(anchor);
     anchor.appendChild(createImageElement('img', 'thumb', element.thumb, url))
@@ -161,6 +178,8 @@ const appendData = async () => {
 }
 
 const appendDeal = async () => {
+  const exchange = await getLatestCurrency();
+  const { rates: { USD, BRL } } = exchange;
   const listDeals = await getData();
   const listOfStores = await getStores();
   // console.log(listDeals);
@@ -178,8 +197,8 @@ const appendDeal = async () => {
     divImage.className = 'image-container';
     const divStore = document.createElement('div');
     divStore.className = 'store-container';
-    divPrice.appendChild(createTextElement('p', 'sale-price', `$ ${element.salePrice}`));
-    divPrice.appendChild(createTextElement('p', 'price', `$ ${element.normalPrice}`));
+    divPrice.appendChild(createTextElement('p', 'sale-price', `R$ ${((element.salePrice / USD) * BRL).toFixed(2)}`));
+    divPrice.appendChild(createTextElement('p', 'price', `R$ ${((element.normalPrice / USD) * BRL).toFixed(2)}`));
     div.appendChild(createTextElement('p', 'title', element.title));
     divImage.appendChild(anchor);
     anchor.appendChild(createImageElement('img', 'thumb', element.thumb, url))
@@ -195,8 +214,9 @@ const appendDeal = async () => {
   })
 }
 
-
 const searchGame = async () => {
+  const exchange = await getLatestCurrency();
+  const { rates: { USD, BRL } } = exchange;
   let gameName = localStorage.getItem('inputText');
   const listOfGames = await getGames(gameName);
   sectionGames.className = 'games-list'
@@ -218,7 +238,7 @@ const searchGame = async () => {
     anchor.appendChild(createImageElement('img', 'search-gameThumb', element.thumb, url));
     divImage.appendChild(anchor);
     gameTitle.appendChild(createTextElement('p', 'search-gameName', element.external));
-    priceTitle.appendChild(createTextElement('p', 'search-salePrice', element.cheapest));
+    priceTitle.appendChild(createTextElement('p', 'search-salePrice', `R$ ${((element.cheapest / USD) * BRL).toFixed(2)}`));
     gamePerTitle.appendChild(divImage);
     gamePerTitle.appendChild(gameTitle);
     gamePerTitle.appendChild(priceTitle);
@@ -239,7 +259,6 @@ if (window.location.href.includes('search.html')) {
     searchGame();
   })
 }
-
 
 window.onload = async () => {
   if (!window.location.href.includes('search.html')) {
