@@ -5,7 +5,7 @@ const btn = document.querySelector('.btn');
 const textInput = document.querySelector('#search');
 const logoHeader = document.querySelector('#logo-header');
 const sectionGames = document.querySelector('#section-search');
-const API_KEY = 'edd790f37703711c2db0506a4a4f38aa';
+const API_KEY = '0677c1970aee03658a1ebd86adb6cd2e';
 
 
 const getGames = async (games) => {
@@ -101,9 +101,6 @@ const removePrev = async (title) => {
 };
 
 const createRatingElement = async (listDeals, listOfStores, { rates:{ USD,BRL } }) => {
-  testArray = [];
-  /* const exchange = await getLatestCurrency();
-  const { rates: { USD, BRL } } = exchange; */
   listDeals.forEach((element) => {
     const anchor = document.createElement('a');
     const url = `https://www.cheapshark.com/redirect?dealID=${element.dealID}`;
@@ -132,9 +129,7 @@ const createRatingElement = async (listDeals, listOfStores, { rates:{ USD,BRL } 
     div.appendChild(divStore);
     div.appendChild(createTextElement('p', 'rate', `Metacritic Score: ${element.metacriticScore}`));
     document.querySelector('#rating-container').appendChild(div);
-    testArray.push(div.innerHTML);
   })
- return console.log(testArray[0]);
 }
 
 const appendRating = async () => {
@@ -188,12 +183,7 @@ const appendData = async () => {
 
 }
 
-const searchGame = async () => {
-  let gameName = localStorage.getItem('inputText');
-  const listOfGames = await getGames(gameName);
-  sectionGames.className = 'games-list'
-  const exchange = await getLatestCurrency();
-  const { rates: { USD, BRL } } = exchange;
+const createSearchElement = async (listOfGames, { rates:{ USD,BRL } }) => {
   listOfGames.forEach((element) => {
     const anchor = document.createElement('a');
     const url = `https://www.cheapshark.com/redirect?dealID=${element.cheapestDealID}`;
@@ -217,21 +207,30 @@ const searchGame = async () => {
     gamePerTitle.appendChild(gameTitle);
     gamePerTitle.appendChild(priceTitle);
     divGame.appendChild(gamePerTitle);
-    sectionGames.appendChild(divGame);
+    document.querySelector('#section-search').appendChild(divGame);
   })
+}
+
+const appendSearch = async () => {
+  let gameName = localStorage.getItem('inputText');
+  const listOfGames = await getGames(gameName);
+  sectionGames.className = 'games-list'
+  const exchange = await getLatestCurrency();
+  const { rates: { USD, BRL } } = exchange;
+  await createSearchElement(listOfGames, exchange);
 }
 
 //logoHeader.addEventListener('click', () => window.location = '/');
 
 if (window.location.href.includes('search.html')) {
-  searchGame();
+  appendSearch();
   logoHeader.addEventListener('click', () => window.location = '/');
   const btnSearch = document.querySelector('.btn-search')
   btnSearch.addEventListener('click', () => {
     sectionGames.innerHTML = '';
     console.log(textInput.value)
     localStorage.setItem('inputText', textInput.value);
-    searchGame();
+    appendSearch();
   })
 }
 
@@ -255,5 +254,6 @@ if (typeof module !== 'undefined') {
   module.exports = {
     createRatingElement,
     createDataElement,
+    createSearchElement,
   };
 }
