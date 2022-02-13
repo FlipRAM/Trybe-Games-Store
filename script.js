@@ -46,7 +46,7 @@ const getRating = async () => {
 const getLatestCurrency = async () => {
   const url = 'http://api.exchangeratesapi.io/v1/';
   const response = await fetch(`${url}/latest?access_key=${API_KEY}`)
-  const data = response.json();
+  const data = await response.json();
   console.log(data);
   return data;
 }
@@ -90,7 +90,7 @@ const getIcon = (id, listOfStores) => {
   return obj;
 }
 
-/* const removePrev = async (title) => {
+const removePrev = async (title) => {
   const listDeals = await getRating();
   for (let i = 1; i < listDeals.length; i += 1) {
     if (listDeals[i].title === listDeals[i-1].title) {
@@ -98,12 +98,12 @@ const getIcon = (id, listOfStores) => {
     }
   }
   // console.log(listDeals);
-}; */
+};
 
-const createRatingElements = async (listDeals, listOfStores) => {
+const createRatingElement = async (listDeals, listOfStores, { rates:{ USD,BRL } }) => {
   testArray = [];
-  const exchange = await getLatestCurrency();
-  const { rates: { USD, BRL } } = exchange;
+  /* const exchange = await getLatestCurrency();
+  const { rates: { USD, BRL } } = exchange; */
   listDeals.forEach((element) => {
     const anchor = document.createElement('a');
     const url = `https://www.cheapshark.com/redirect?dealID=${element.dealID}`;
@@ -137,25 +137,18 @@ const createRatingElements = async (listDeals, listOfStores) => {
  return console.log(testArray[0]);
 }
 
-if (typeof module !== 'undefined') {
-  module.exports = {
-    createRatingElements,
-  };
-}
-
 const appendRating = async () => {
   const listDeals = await getRating();
   const listOfStores = await getStores();
   console.log(listDeals);
-  createRatingElements(listDeals, listOfStores);
+  const exchange = await getLatestCurrency();
+  //const { rates: { USD, BRL } } = exchange;
+  await createRatingElement(listDeals, listOfStores, exchange);
 }
 
-const appendData = async () => {
-  const listDeals = await getData();
-  const listOfStores = await getStores();
-  // console.log(listDeals);
-  const exchange = await getLatestCurrency();
-  const { rates: { USD, BRL } } = exchange;
+
+
+const createDataElement = async (listDeals, listOfStores, { rates:{ USD,BRL } }) => {
   listDeals.forEach((element) => {
     const anchor = document.createElement('a');
     const url = `https://www.cheapshark.com/redirect?dealID=${element.dealID}`;
@@ -183,8 +176,16 @@ const appendData = async () => {
     div.appendChild(divPrice);
     div.appendChild(divStore);
     div.appendChild(createTextElement('p', 'rate', `Metacritic Score: ${element.metacriticScore}`));
-    gamesContainer.appendChild(div);
+    document.querySelector('#games-container').appendChild(div);
   })
+}
+
+const appendData = async () => {
+  const listDeals = await getData();
+  const listOfStores = await getStores();
+  const exchange = await getLatestCurrency();
+  await createDataElement(listDeals, listOfStores, exchange);
+
 }
 
 const searchGame = async () => {
@@ -241,7 +242,7 @@ window.onload = async () => {
     await appendData();
     await appendRating();
     const title = document.querySelectorAll('.title-r')
-    //await removePrev(title);
+    await removePrev(title);
     btn.addEventListener('click', () => {
       sectionAll.innerHTML = '';
       localStorage.setItem('inputText', textInput.value);
@@ -250,3 +251,9 @@ window.onload = async () => {
   };
 }
  
+if (typeof module !== 'undefined') {
+  module.exports = {
+    createRatingElement,
+    createDataElement,
+  };
+}
