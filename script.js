@@ -1,5 +1,5 @@
 const gamesContainer = document.querySelector('#games-container');
-const ratingContainer = document.querySelector('#rating-container')
+const ratingContainer = document.querySelector('#rating-container');
 const sectionAll = document.querySelector('.everything');
 const btn = document.querySelector('.btn');
 const textInput = document.querySelector('#search');
@@ -7,7 +7,7 @@ const logoHeader = document.querySelector('#logo-header');
 const sectionGames = document.querySelector('#section-search');
 const API_KEY = 'edd790f37703711c2db0506a4a4f38aa';
 
-// API CALLS
+
 const getGames = async (games) => {
   const url = `https://www.cheapshark.com/api/1.0/games?title=${games}`;
   const request = {
@@ -43,18 +43,6 @@ const getRating = async () => {
   return data;
 }
 
-const getStores = async () => {
-  const url = 'https://www.cheapshark.com/api/1.0/stores';
-  const request = {
-    method: 'GET',
-    redirect: 'follow'
-  };
-  const response = await fetch(url, request);
-  const data = await response.json();
-  // console.log(data);
-  return data;
-}
-
 const getLatestCurrency = async () => {
   const url = 'http://api.exchangeratesapi.io/v1/';
   const response = await fetch(`${url}/latest?access_key=${API_KEY}`)
@@ -62,8 +50,6 @@ const getLatestCurrency = async () => {
   console.log(data);
   return data;
 }
-
-//
 
 const createTextElement = (type, className, content) => {
   const element = document.createElement(type);
@@ -84,6 +70,17 @@ const createImageElement = (type, className, content, link) => {
   return element;
 }
 
+const getStores = async () => {
+  const url = 'https://www.cheapshark.com/api/1.0/stores';
+  const request = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+  const response = await fetch(url, request);
+  const data = await response.json();
+  // console.log(data);
+  return data;
+}
 
 const getIcon = (id, listOfStores) => {
   obj = {
@@ -93,7 +90,7 @@ const getIcon = (id, listOfStores) => {
   return obj;
 }
 
-const removePrev = async (title) => {
+/* const removePrev = async (title) => {
   const listDeals = await getRating();
   for (let i = 1; i < listDeals.length; i += 1) {
     if (listDeals[i].title === listDeals[i-1].title) {
@@ -101,14 +98,12 @@ const removePrev = async (title) => {
     }
   }
   // console.log(listDeals);
-};
+}; */
 
-const appendRating = async () => {
+const createRatingElements = async (listDeals, listOfStores) => {
+  testArray = [];
   const exchange = await getLatestCurrency();
   const { rates: { USD, BRL } } = exchange;
-  const listDeals = await getRating();
-  const listOfStores = await getStores();
-  console.log(listDeals);
   listDeals.forEach((element) => {
     const anchor = document.createElement('a');
     const url = `https://www.cheapshark.com/redirect?dealID=${element.dealID}`;
@@ -136,53 +131,31 @@ const appendRating = async () => {
     div.appendChild(divPrice);
     div.appendChild(divStore);
     div.appendChild(createTextElement('p', 'rate', `Metacritic Score: ${element.metacriticScore}`));
-    ratingContainer.appendChild(div);
+    document.querySelector('#rating-container').appendChild(div);
+    testArray.push(div.innerHTML);
   })
+ return console.log(testArray[0]);
+}
+
+if (typeof module !== 'undefined') {
+  module.exports = {
+    createRatingElements,
+  };
+}
+
+const appendRating = async () => {
+  const listDeals = await getRating();
+  const listOfStores = await getStores();
+  console.log(listDeals);
+  createRatingElements(listDeals, listOfStores);
 }
 
 const appendData = async () => {
-  const exchange = await getLatestCurrency();
-  const { rates: { USD, BRL } } = exchange;
   const listDeals = await getData();
   const listOfStores = await getStores();
   // console.log(listDeals);
-  listDeals.forEach((element) => {
-    const anchor = document.createElement('a');
-    const url = `https://www.cheapshark.com/redirect?dealID=${element.dealID}`;
-    anchor.href = url;
-    anchor.target = '_blank';
-    const storeId = element.storeID;
-    const div = document.createElement('div');
-    div.className = 'game-column'
-    const divPrice = document.createElement('div');
-    divPrice.className = 'div-price';
-    const divImage = document.createElement('div');
-    divImage.className = 'image-container';
-    const divStore = document.createElement('div');
-    divStore.className = 'store-container';
-    divPrice.appendChild(createTextElement('p', 'sale-price', `R$ ${((element.salePrice / USD) * BRL).toFixed(2)}`));
-    divPrice.appendChild(createTextElement('p', 'price', `R$ ${((element.normalPrice / USD) * BRL).toFixed(2)}`));
-    div.appendChild(createTextElement('p', 'title', element.title));
-    divImage.appendChild(anchor);
-    anchor.appendChild(createImageElement('img', 'thumb', element.thumb, url))
-    const objReturned = getIcon(storeId, listOfStores);
-    // console.log(objReturned);
-    divStore.appendChild(createTextElement('p', 'store-name', objReturned.storeName));
-    divStore.appendChild(createImageElement('img', 'store-logo', objReturned.logo));
-    div.appendChild(divImage);
-    div.appendChild(divPrice);
-    div.appendChild(divStore);
-    div.appendChild(createTextElement('p', 'rate', `Metacritic Score: ${element.metacriticScore}`));
-    gamesContainer.appendChild(div);
-  })
-}
-
-const appendDeal = async () => {
   const exchange = await getLatestCurrency();
   const { rates: { USD, BRL } } = exchange;
-  const listDeals = await getData();
-  const listOfStores = await getStores();
-  // console.log(listDeals);
   listDeals.forEach((element) => {
     const anchor = document.createElement('a');
     const url = `https://www.cheapshark.com/redirect?dealID=${element.dealID}`;
@@ -215,11 +188,11 @@ const appendDeal = async () => {
 }
 
 const searchGame = async () => {
-  const exchange = await getLatestCurrency();
-  const { rates: { USD, BRL } } = exchange;
   let gameName = localStorage.getItem('inputText');
   const listOfGames = await getGames(gameName);
   sectionGames.className = 'games-list'
+  const exchange = await getLatestCurrency();
+  const { rates: { USD, BRL } } = exchange;
   listOfGames.forEach((element) => {
     const anchor = document.createElement('a');
     const url = `https://www.cheapshark.com/redirect?dealID=${element.cheapestDealID}`;
@@ -247,10 +220,11 @@ const searchGame = async () => {
   })
 }
 
-logoHeader.addEventListener('click', () => window.location = '/');
+//logoHeader.addEventListener('click', () => window.location = '/');
 
 if (window.location.href.includes('search.html')) {
   searchGame();
+  logoHeader.addEventListener('click', () => window.location = '/');
   const btnSearch = document.querySelector('.btn-search')
   btnSearch.addEventListener('click', () => {
     sectionGames.innerHTML = '';
@@ -260,12 +234,14 @@ if (window.location.href.includes('search.html')) {
   })
 }
 
+
 window.onload = async () => {
   if (!window.location.href.includes('search.html')) {
+    logoHeader.addEventListener('click', () => window.location = '/')
     await appendData();
     await appendRating();
     const title = document.querySelectorAll('.title-r')
-    await removePrev(title);
+    //await removePrev(title);
     btn.addEventListener('click', () => {
       sectionAll.innerHTML = '';
       localStorage.setItem('inputText', textInput.value);

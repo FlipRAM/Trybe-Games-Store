@@ -1,0 +1,23 @@
+{
+  "name": "Trybe-Games-Store",
+  "version": "1.0.0",
+  "description": "Projeto Bônus do módulo de fundamentos da Trybe.",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlipRAM/Trybe-Games-Store.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FlipRAM/Trybe-Games-Store/issues"
+  },
+  "homepage": "https://github.com/FlipRAM/Trybe-Games-Store#readme",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  }
+}
