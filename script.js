@@ -8,7 +8,7 @@ const sectionGames = document.querySelector('#section-search');
 // const buttonFinal = document.querySelectorAll('.final-fantasy');
 const buttonFinal = document.querySelectorAll('.icons');
 // const image = document.querySelector('.image-responsive');
-const API_KEY = '0677c1970aee03658a1ebd86adb6cd2e';
+const API_KEY = 'edd790f37703711c2db0506a4a4f38aa';
 
 for (let k = 0; k < buttonFinal.length; k += 1) {
   buttonFinal[k].addEventListener('click', (e) => {
@@ -231,9 +231,21 @@ const createSearchElement = async (listOfGames, { rates:{ USD,BRL } }) => {
 const appendSearch = async () => {
   let gameName = localStorage.getItem('inputText');
   const listOfGames = await getGames(gameName);
-  sectionGames.className = 'games-list';
-  const exchange = await getLatestCurrency();
-  await createSearchElement(listOfGames, exchange);
+  const sectionSearch = document.querySelector('.section-result');
+  if (sectionSearch) {
+    sectionSearch.remove();
+  } if (listOfGames.length === 0) {
+    const body = document.querySelector('body');
+    const script = document.querySelector('script');
+    const sectionResult = document.createElement('section');
+    sectionResult.innerText = 'Resultado não encontrado!';
+    sectionResult.className = 'section-result';
+    body.insertBefore(sectionResult, script);
+  } if (listOfGames.length !== 0) {
+    sectionGames.className = 'games-list';
+    const exchange = await getLatestCurrency();
+    await createSearchElement(listOfGames, exchange);
+  }
 }
 
 //logoHeader.addEventListener('click', () => window.location = '/');
