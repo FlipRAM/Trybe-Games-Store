@@ -199,7 +199,6 @@ const appendData = async () => {
   const listOfStores = await getStores();
   const exchange = await getLatestCurrency();
   await createDataElement(listDeals, listOfStores, exchange);
-
 }
 
 const createSearchElement = async (listOfGames, { rates:{ USD,BRL } }) => {
