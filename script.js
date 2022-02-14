@@ -1,12 +1,18 @@
-const gamesContainer = document.querySelector('#games-container');
+// const gamesContainer = document.querySelector('#games-container');
 const ratingContainer = document.querySelector('#rating-container');
 const sectionAll = document.querySelector('.everything');
 const btn = document.querySelector('.btn');
 const textInput = document.querySelector('#search');
 const logoHeader = document.querySelector('#logo-header');
 const sectionGames = document.querySelector('#section-search');
-const buttonFinal = document.querySelectorAll('.final-fantasy');
+// const buttonFinal = document.querySelectorAll('.final-fantasy');
+const buttonFinal = document.querySelectorAll('.icons');
 const image = document.querySelector('.image-responsive');
+const API_KEY = '0677c1970aee03658a1ebd86adb6cd2e';
+
+// buttonFinal.addEventListener('click', (e) => {
+//   e.target.previousElementSibling.classList.toggle()
+// })
 
 for (let k = 0; k < buttonFinal.length; k += 1) {
   buttonFinal[k].addEventListener('click', (e) => {
@@ -22,20 +28,17 @@ image.addEventListener('click', (e) => {
 //   $(this).toggleClass('hidden');
 // })
 
-const API_KEY = '0677c1970aee03658a1ebd86adb6cd2e';
-
-
-// const getGames = async (games) => {
-//   const url = `https://www.cheapshark.com/api/1.0/games?title=${games}`;
-//   const request = {
-//     method: 'GET',
-//     redirect: 'follow',
-//   }
-//   const response = await fetch(url, request);
-//   const data = await response.json();
-//   console.log(data)
-//   return data;
-// }
+const getGames = async (games) => {
+  const url = `https://www.cheapshark.com/api/1.0/games?title=${games}`;
+  const request = {
+    method: 'GET',
+    redirect: 'follow',
+  }
+  const response = await fetch(url, request);
+  const data = await response.json();
+  console.log(data)
+  return data;
+}
 // getGames('batman');
 
 const getData = async () => {
@@ -60,13 +63,13 @@ const genericDeals = async (param) => {
   return data;
 }
 
-const getLatestCurrency = async () => {
-  const url = 'http://api.exchangeratesapi.io/v1/';
-  const response = await fetch(`${url}/latest?access_key=${API_KEY}`)
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
+// const getLatestCurrency = async () => {
+//   const url = 'http://api.exchangeratesapi.io/v1/';
+//   const response = await fetch(`${url}/latest?access_key=${API_KEY}`)
+//   const data = await response.json();
+//   console.log(data);
+//   return data;
+// }
 
 const createTextElement = (type, className, content) => {
   const element = document.createElement(type);
