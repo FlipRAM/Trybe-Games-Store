@@ -34,13 +34,14 @@ header {
   width: 100%;
   top: 0;
   background-color: rgb(102, 102, 102);
+  z-index: 9999;
 }
 
 #logo-header {
   cursor: pointer;
   display: flex;
   align-items: center;
-  border: 5px solid green;
+  /* border: 5px solid green; */
 }
 
 #search {
@@ -60,6 +61,10 @@ header {
 }
 
 #best-offers {
+  scroll-margin-top: 180px;
+}
+
+#our-suggestions {
   scroll-margin-top: 180px;
 }
 
@@ -86,7 +91,7 @@ h2 {
 #games-container, #rating-container {
   display: flex;
   overflow-x: scroll;
-  border: 5px solid red;
+  /* border: 5px solid red; */
 }
 
 .game-column {
@@ -95,7 +100,7 @@ h2 {
   justify-content: space-around;
   text-align: center;
   margin: 10px 20px;
-  border: 5px solid blue;
+  /* border: 5px solid blue; */
   min-width: 200px;
 }
 
@@ -181,7 +186,7 @@ h2 {
 
 .container-game {
   margin: 25px 20px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .games-list {
@@ -199,7 +204,7 @@ h2 {
 }
 
 #nosso-container {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   overflow: hidden;
 }
 
@@ -213,28 +218,62 @@ h2 {
   display:none
 }
 
-.image-responsive {
+.image-responsive , .hey {
   max-height: 180px;
   width: 200px;
+  margin-left: 50px;
+}
+
+.hey {
+  position: absolute;
+  margin-top: 1.5%;
+  overflow: hidden;
 }
 
 .icons {
-  height: 5%;
-  width: 5%;
-  display: flex;
+  cursor: pointer;
+  height: 10%;
+  width: 10%;
   margin-left: 100px;
+  margin-bottom: 100px;
+  position: static;
+}
+
+.title-name , .image-responsive {
+  display: flex;
+  justify-content: center;
+}
+
+.title-genre {
+  margin-left: 37%;
 }
 
 @media screen and (max-width: 768px){
   .games-list {
     width: 100%;
-    margin: 0;
+    /* margin: 0; */
     margin-top: 200px;
   }
   .each-container {
     width: 100%;
   }
+  .hey {
+    /* position: absolute; */
+    position: initial;
+    margin-top: 2.5%;
+    /* display: block; */
+    margin-right: 10%;
+    margin-left: 0;
+  }
   .game-card {
+    margin-left: 10%;
+    overflow: hidden;
+  }
+  .image-responsive {
+    margin-left: 0;
+  }
+  .title-name {
+    display: block;
     margin-left: 10%;
   }
   .title-genre {
