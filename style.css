@@ -240,4 +240,12 @@ h2 {
   .title-genre {
     margin-left: 20%;
   }
+  .image-responsive {
+    margin-left: 25%;
+  }
+}
+
+.center {
+  text-align: center;
+  margin-right: 50px;
 }

@@ -9,6 +9,8 @@ const sectionGames = document.querySelector('#section-search');
 const buttonFinal = document.querySelectorAll('.icons');
 // const image = document.querySelector('.image-responsive');
 const API_KEY = '0677c1970aee03658a1ebd86adb6cd2e';
+let searchArray =[];
+
 
 for (let k = 0; k < buttonFinal.length; k += 1) {
   buttonFinal[k].addEventListener('click', (e) => {
@@ -60,13 +62,13 @@ const genericDeals = async (param) => {
   return data;
 }
 
-// const getLatestCurrency = async () => {
-//   const url = 'http://api.exchangeratesapi.io/v1/';
-//   const response = await fetch(`${url}/latest?access_key=${API_KEY}`)
-//   const data = await response.json();
-//   console.log(data);
-//   return data;
-// }
+ const getLatestCurrency = async () => {
+   const url = 'http://api.exchangeratesapi.io/v1/';
+   const response = await fetch(`${url}/latest?access_key=${API_KEY}`)
+   const data = await response.json();
+   console.log(data);
+   return data;
+ }
 
 const createTextElement = (type, className, content) => {
   const element = document.createElement(type);
@@ -229,7 +231,18 @@ const createSearchElement = async (listOfGames, { rates:{ USD,BRL } }) => {
 }
 
 const appendSearch = async () => {
+  //searchArray = [];
   let gameName = localStorage.getItem('inputText');
+  const listOfGames = await getGames(gameName);
+  sectionGames.className = 'games-list';
+  const exchange = await getLatestCurrency();
+  await createSearchElement(listOfGames, exchange);
+}
+
+ 
+
+const searchImage = async () => {
+  let gameName = searchArray[0];
   const listOfGames = await getGames(gameName);
   sectionGames.className = 'games-list';
   const exchange = await getLatestCurrency();
@@ -239,25 +252,46 @@ const appendSearch = async () => {
 //logoHeader.addEventListener('click', () => window.location = '/');
 
 if (window.location.href.includes('search.html')) {
-  appendSearch();
+  searchArray.push(localStorage.getItem('text'));
+  if (searchArray[0] !== null) {
+    localStorage.removeItem('inputText');
+    searchImage();
+  }
+  if (localStorage.getItem('inputText') !== null){
+    appendSearch()
+  }
   logoHeader.addEventListener('click', () => window.location = '/');
   const btnSearch = document.querySelector('.btn-search')
   btnSearch.addEventListener('click', () => {
+    localStorage.removeItem('text');
     sectionGames.innerHTML = '';
     console.log(textInput.value)
     localStorage.setItem('inputText', textInput.value);
-    appendSearch();
+    //searchImage();
+    if (localStorage.getItem('inputText') !== null){
+      appendSearch()
+    }
   })
+  //appendSearch();
 }
+
 
 window.onload = async () => {
   if (!window.location.href.includes('search.html')) {
+    const image = document.querySelectorAll('.image-responsive');
+    for (let i = 0; i < image.length; i += 1) {
+      image[i].addEventListener('click', (e) => {
+        localStorage.setItem('text', e.target.previousElementSibling.innerText);
+        window.location = "./search.html";
+      });
+    }
     logoHeader.addEventListener('click', () => window.location = '/')
     await appendData();
     await appendRating();
     const title = document.querySelectorAll('.title-r')
     await removePrev(title);
     btn.addEventListener('click', () => {
+      localStorage.removeItem('text');
       sectionAll.innerHTML = '';
       localStorage.setItem('inputText', textInput.value);
       window.location = "./search.html"
