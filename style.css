@@ -216,6 +216,7 @@ h2 {
 .image-responsive {
   max-height: 180px;
   width: 200px;
+  margin-left: 50px;
 }
 
 .icons {
@@ -223,6 +224,15 @@ h2 {
   width: 5%;
   display: flex;
   margin-left: 100px;
+}
+
+.title-name , .image-responsive {
+  display: flex;
+  justify-content: center;
+}
+
+.title-genre {
+  margin-left: 37%;
 }
 
 @media screen and (max-width: 768px){
@@ -235,6 +245,13 @@ h2 {
     width: 100%;
   }
   .game-card {
+    margin-left: 10%;
+  }
+  .image-responsive {
+    margin-left: 0;
+  }
+  .title-name {
+    display: block;
     margin-left: 10%;
   }
   .title-genre {
