@@ -8,7 +8,7 @@ const sectionGames = document.querySelector('#section-search');
 // const buttonFinal = document.querySelectorAll('.final-fantasy');
 const buttonFinal = document.querySelectorAll('.icons');
 // const image = document.querySelector('.image-responsive');
-// const API_KEY = 'edd790f37703711c2db0506a4a4f38aa';
+const API_KEY = 'edd790f37703711c2db0506a4a4f38aa';
 let searchArray =[];
 
 
@@ -110,11 +110,13 @@ const getIcon = (id, listOfStores) => {
   return obj;
 }
 
-const removePrev = async (title) => {
-  const listDeals = await genericDeals('Metacritic');
-  for (let i = 1; i < listDeals.length; i += 1) {
+const removePrev = async () => {
+  const listDeals = await getRating();
+  for (let i = 1; i > listDeals.length; i += 1) {
+    const title = document.querySelectorAll('.title-r');
+    console.log(title);
     if (listDeals[i].title === listDeals[i-1].title) {
-    ratingContainer.removeChild(title[i].parentNode);
+      ratingContainer.removeChild(title[i].parentNode);
     }
   }
   // console.log(listDeals);
@@ -287,7 +289,7 @@ window.onload = async () => {
     logoHeader.addEventListener('click', () => window.location = '/')
     await appendData();
     await appendRating();
-    const title = document.querySelectorAll('.title-r')
+    // const title = document.querySelectorAll('.title-r')
     await removePrev(title);
     btn.addEventListener('click', () => {
       localStorage.removeItem('text');
