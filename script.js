@@ -8,7 +8,7 @@ const sectionGames = document.querySelector('#section-search');
 // const buttonFinal = document.querySelectorAll('.final-fantasy');
 const buttonFinal = document.querySelectorAll('.icons');
 // const image = document.querySelector('.image-responsive');
-const API_KEY = '0677c1970aee03658a1ebd86adb6cd2e';
+const API_KEY = 'edd790f37703711c2db0506a4a4f38aa';
 let searchArray =[];
 
 
@@ -62,13 +62,13 @@ const genericDeals = async (param) => {
   return data;
 }
 
- const getLatestCurrency = async () => {
+ /* const getLatestCurrency = async () => {
    const url = 'http://api.exchangeratesapi.io/v1/';
    const response = await fetch(`${url}/latest?access_key=${API_KEY}`)
    const data = await response.json();
    console.log(data);
    return data;
- }
+ } */
 
 const createTextElement = (type, className, content) => {
   const element = document.createElement(type);
