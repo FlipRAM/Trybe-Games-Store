@@ -115,6 +115,14 @@ h2 {
   margin: 0;
 }
 
+/* .thumb {
+  overflow-x: hidden;
+} */
+
+.thumb {
+  max-width: 160px;
+}
+
 .image-container {
   display: flex;
   justify-content: center;
@@ -124,6 +132,7 @@ h2 {
   margin: 5px 0;
   min-height: 200px;
   height: fit-content;
+  max-width: 200px;
   /* border: 5px solid green; */
 }
 
@@ -195,4 +204,30 @@ h2 {
     margin: 0;
     margin-top: 200px;
   }
+}
+
+#nosso-container {
+  width: 100%;
+  height: 1000px;
+  border: 2px solid red;
+  display: flex;
+  justify-content: space-between;
+}
+
+.each-container {
+  order: 0;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  align-items: center;
+}
+
+.hidden {
+  display:none
+}
+
+.image-responsive {
+  max-height: 180px;
+  max-width: 240px;
 }

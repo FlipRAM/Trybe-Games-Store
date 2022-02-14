@@ -5,20 +5,37 @@ const btn = document.querySelector('.btn');
 const textInput = document.querySelector('#search');
 const logoHeader = document.querySelector('#logo-header');
 const sectionGames = document.querySelector('#section-search');
+const buttonFinal = document.querySelectorAll('.final-fantasy');
+const image = document.querySelector('.image-responsive');
+
+for (let k = 0; k < buttonFinal.length; k += 1) {
+  buttonFinal[k].addEventListener('click', (e) => {
+    e.target.previousElementSibling.classList.toggle('hidden');
+  })
+}
+
+image.addEventListener('click', (e) => {
+  console.log(e.target.previousElementSibling);
+})
+
+// $('#test').on('click', '#test2', function() {
+//   $(this).toggleClass('hidden');
+// })
+
 const API_KEY = '0677c1970aee03658a1ebd86adb6cd2e';
 
 
-const getGames = async (games) => {
-  const url = `https://www.cheapshark.com/api/1.0/games?title=${games}`;
-  const request = {
-    method: 'GET',
-    redirect: 'follow',
-  }
-  const response = await fetch(url, request);
-  const data = await response.json();
-  console.log(data)
-  return data;
-}
+// const getGames = async (games) => {
+//   const url = `https://www.cheapshark.com/api/1.0/games?title=${games}`;
+//   const request = {
+//     method: 'GET',
+//     redirect: 'follow',
+//   }
+//   const response = await fetch(url, request);
+//   const data = await response.json();
+//   console.log(data)
+//   return data;
+// }
 // getGames('batman');
 
 const getData = async () => {
