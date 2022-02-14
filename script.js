@@ -62,13 +62,13 @@ const genericDeals = async (param) => {
   return data;
 }
 
- const getLatestCurrency = async () => {
+const getLatestCurrency = async () => {
    const url = 'http://api.exchangeratesapi.io/v1/';
    const response = await fetch(`${url}/latest?access_key=${API_KEY}`)
    const data = await response.json();
    console.log(data);
    return data;
- }
+}
 
 const createTextElement = (type, className, content) => {
   const element = document.createElement(type);
@@ -232,9 +232,21 @@ const appendSearch = async () => {
   //searchArray = [];
   let gameName = localStorage.getItem('inputText');
   const listOfGames = await getGames(gameName);
-  sectionGames.className = 'games-list';
-  const exchange = await getLatestCurrency();
-  await createSearchElement(listOfGames, exchange);
+  const sectionSearch = document.querySelector('.section-result');
+  if (sectionSearch) {
+    sectionSearch.remove();
+  } if (listOfGames.length === 0) {
+    const body = document.querySelector('body');
+    const script = document.querySelector('script');
+    const sectionResult = document.createElement('section');
+    sectionResult.innerText = 'Resultado não encontrado!';
+    sectionResult.className = 'section-result';
+    body.insertBefore(sectionResult, script);
+  } if (listOfGames.length !== 0) {
+    sectionGames.className = 'games-list';
+    const exchange = await getLatestCurrency();
+    await createSearchElement(listOfGames, exchange);
+  }
 }
 
  
@@ -286,8 +298,8 @@ window.onload = async () => {
     logoHeader.addEventListener('click', () => window.location = '/')
     await appendData();
     await appendRating();
-    const title = document.querySelectorAll('.title-r')
-    await removePrev(title);
+    // const title = document.querySelectorAll('.title-r')
+    // await removePrev(title);
     btn.addEventListener('click', () => {
       localStorage.removeItem('text');
       sectionAll.innerHTML = '';

@@ -102,6 +102,17 @@ h2 {
   margin: 10px 20px;
   /* border: 5px solid blue; */
   min-width: 200px;
+  background-color: var(--trybegreen);
+  padding-top: 10px;
+  border-radius: 8px;
+}
+
+.game-column:hover {
+  opacity: 0.8;
+}
+
+.game-column .title, .div-price .sale-price, .div-price .price, .store-name, .rate {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .div-price {
@@ -187,10 +198,24 @@ h2 {
 .container-game {
   margin: 25px 20px;
   /* border: 1px solid red; */
+  background-color: var(--trybegreen);
+  padding-top: 10px;
+  border-radius: 8px;
 }
 
+.container-game:hover {
+  opacity: 0.8;
+}
+
+.game-title p, .price-title p {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+
+
 .games-list {
-  margin-top: 200px;
+  margin: 200px auto 0 auto;
+  /* margin-top: 200px; */
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -206,11 +231,19 @@ h2 {
 #nosso-container {
   /* border: 2px solid red; */
   overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .each-container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
   float: left;
-  margin-left: 10%;
+  margin-right: 50px;
   width: 20%;
 }
 
@@ -218,40 +251,76 @@ h2 {
   display:none
 }
 
+.image-responsive:hover {
+  cursor: pointer;
+}
+
 .image-responsive , .hey {
   max-height: 180px;
   width: 200px;
-  margin-left: 50px;
+  max-height: 400px;
 }
 
 .hey {
-  position: absolute;
-  margin-top: 1.5%;
+  /* position: absolute; */
+  position: initial;
+  margin-top: 2.5%;
+  /* display: block; */
+  text-align: center;
   overflow: hidden;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  word-wrap: break-word;
+  width: 280px;
 }
 
 .icons {
   cursor: pointer;
   height: 10%;
   width: 10%;
-  margin-left: 100px;
-  margin-bottom: 100px;
-  position: static;
+  /* position: static; */
 }
 
 .title-name , .image-responsive {
   display: flex;
   justify-content: center;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.section-result {
+  margin-top: 200px;
+  text-align: center;
+  font-size: 32px;
 }
 
 .title-genre {
-  margin-left: 37%;
+  text-align: center;
+  font-size: 24px;
+}
+
+.game-card {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--trybegreen);
+  padding-top: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  width: 300px;
+}
+
+.game-card:hover {
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 768px){
+
   .games-list {
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    /* margin: 0; */
+    margin: 0;
     margin-top: 200px;
   }
   .each-container {
@@ -262,32 +331,55 @@ h2 {
     position: initial;
     margin-top: 2.5%;
     /* display: block; */
-    margin-right: 10%;
-    margin-left: 0;
+    text-align: center;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   }
   .game-card {
-    margin-left: 10%;
+    /* margin-left: 10%; */
     overflow: hidden;
   }
   .image-responsive {
     margin-left: 0;
   }
+
+  #our-suggestions {
+    font-size: 32px;
+  }
+
   .title-name {
     display: block;
-    margin-left: 10%;
+    text-align: center;
+    font-size: 16px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   }
   .title-genre {
-    margin-left: 20%;
+    text-align: center;
+    font-size: 24px;
   }
-  .image-responsive {
-    margin-left: 25%;
+
+  .icons {
+    margin: 0;
+    margin-left: 0;
+    width: 20px;
+  }
+
+  .game-card {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--trybegreen);
+    padding-top: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
   }
 }
 
-.center {
+/* .center {
   text-align: center;
   margin-right: 50px;
-}
+} */
+
 
 footer {
   display: flex;
