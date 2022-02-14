@@ -64,6 +64,10 @@ header {
   scroll-margin-top: 180px;
 }
 
+#our-suggestions {
+  scroll-margin-top: 180px;
+}
+
 #input-container {
   display: flex;
   flex-flow: row wrap;
