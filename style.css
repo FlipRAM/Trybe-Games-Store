@@ -1,0 +1,400 @@
+:root {
+  --trybegreen: #2bc28d;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: white;
+}
+
+body {
+  background-color: rgb(32, 32, 32);
+  font-family: 'Kanit', sans-serif;
+}
+
+header img {
+  height: 80px;
+  margin-right: 10px;
+}
+
+h1 {
+  font-family: 'Kanit', sans-serif;
+}
+
+header {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Kanit', sans-serif;
+  position: fixed;
+  height: 180px;
+  width: 100%;
+  top: 0;
+  background-color: rgb(102, 102, 102);
+  z-index: 9999;
+}
+
+#logo-header {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  /* border: 5px solid green; */
+}
+
+#search {
+  color: rgb(15, 20, 25);
+}
+
+#filter {
+  list-style: none;
+  display: flex;
+  margin-bottom: 5px;
+}
+
+#filter a {
+  text-decoration: none;
+  margin-right: 10px;
+  color: white;
+}
+
+#best-offers {
+  scroll-margin-top: 180px;
+}
+
+#our-suggestions {
+  scroll-margin-top: 180px;
+}
+
+#input-container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+#input-container input {
+  width: 300px;
+  margin-right: 10px;
+  border-radius: 10px;
+}
+
+#input-container button {
+  background-color: var(--trybegreen);
+}
+
+h2 {
+  margin-top: 180px;
+  text-align: center;
+}
+
+#games-container, #rating-container {
+  display: flex;
+  overflow-x: scroll;
+  /* border: 5px solid red; */
+}
+
+.game-column {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  text-align: center;
+  margin: 10px 20px;
+  /* border: 5px solid blue; */
+  min-width: 200px;
+  background-color: var(--trybegreen);
+  padding-top: 10px;
+  border-radius: 8px;
+}
+
+.game-column:hover {
+  opacity: 0.8;
+}
+
+.game-column .title, .div-price .sale-price, .div-price .price, .store-name, .rate {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.div-price {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* border: 5px solid purple; */
+}
+
+.sale-price {
+  margin: 0;
+}
+
+.price {
+  text-decoration: line-through;
+  margin: 0;
+}
+
+/* .thumb {
+  overflow-x: hidden;
+} */
+
+.thumb {
+  max-width: 160px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 237px;
+  background-color: rgb(92, 92, 92);
+  margin: 5px 0;
+  min-height: 200px;
+  height: fit-content;
+  max-width: 200px;
+  /* border: 5px solid green; */
+}
+
+.store-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.store-logo {
+  width: 50px;
+  margin-left: 5px;
+}
+
+.store-name {
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} 
+
+.games-list {
+  margin-left: 20%;
+}
+
+.search-gameThumb {
+  height: 100px;
+  object-fit: contain;
+}
+
+.container-game {
+  margin: 25px 20px;
+  /* border: 1px solid red; */
+  background-color: var(--trybegreen);
+  padding-top: 10px;
+  border-radius: 8px;
+}
+
+.container-game:hover {
+  opacity: 0.8;
+}
+
+.game-title p, .price-title p {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+
+
+.games-list {
+  margin: 200px auto 0 auto;
+  /* margin-top: 200px; */
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  width: 70%;
+  flex-wrap: wrap;
+}
+
+.game-title, .image-div, .price-title {
+  text-align: center;
+  width: 280px;
+}
+
+#nosso-container {
+  /* border: 2px solid red; */
+  overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.each-container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  float: left;
+  margin-right: 50px;
+  width: 20%;
+}
+
+.hidden {
+  display:none
+}
+
+.image-responsive:hover {
+  cursor: pointer;
+}
+
+.image-responsive , .hey {
+  max-height: 180px;
+  width: 200px;
+  max-height: 400px;
+}
+
+.hey {
+  /* position: absolute; */
+  position: initial;
+  margin-top: 2.5%;
+  /* display: block; */
+  text-align: center;
+  overflow: hidden;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  word-wrap: break-word;
+  width: 280px;
+}
+
+.icons {
+  cursor: pointer;
+  height: 10%;
+  width: 10%;
+  /* position: static; */
+}
+
+.title-name , .image-responsive {
+  display: flex;
+  justify-content: center;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.section-result {
+  margin-top: 200px;
+  text-align: center;
+  font-size: 32px;
+}
+
+.title-genre {
+  text-align: center;
+  font-size: 24px;
+}
+
+.game-card {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--trybegreen);
+  padding-top: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  width: 300px;
+}
+
+.game-card:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 768px){
+
+  .games-list {
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    margin-top: 200px;
+  }
+  .each-container {
+    width: 100%;
+  }
+  .hey {
+    /* position: absolute; */
+    position: initial;
+    margin-top: 2.5%;
+    /* display: block; */
+    text-align: center;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  }
+  .game-card {
+    /* margin-left: 10%; */
+    overflow: hidden;
+  }
+  .image-responsive {
+    margin-left: 0;
+  }
+
+  #our-suggestions {
+    font-size: 32px;
+  }
+
+  .title-name {
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  }
+  .title-genre {
+    text-align: center;
+    font-size: 24px;
+  }
+
+  .icons {
+    margin: 0;
+    margin-left: 0;
+    width: 20px;
+  }
+
+  .game-card {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--trybegreen);
+    padding-top: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+}
+
+.center {
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column nowrap;
+  background-color: rgb(102, 102, 102);
+  position: relative;
+  bottom: 0;
+  margin-top: 20px;
+  padding: 8px;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+footer a {
+  text-decoration: none;
+  color: white;
+}
